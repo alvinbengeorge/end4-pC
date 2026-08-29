@@ -30,7 +30,7 @@ ContentPage {
 
             # Download to temp first
             rm -rf "$DIR/end4-pC-tmp"
-            git clone https://github.com/alvinbengeorge/end4-pC.git "$DIR/end4-pC-tmp"
+            git clone https://github.com/pctrade/end4-pC.git "$DIR/end4-pC-tmp"
 
             # Apply update
             rm -rf "$DIR/end4-pC-old"

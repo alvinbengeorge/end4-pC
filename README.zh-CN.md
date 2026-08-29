@@ -49,7 +49,7 @@
 
 ```bash
 cd ~/.config/quickshell/
-git clone https://github.com/alvinbengeorge/end4-pC.git
+git clone https://github.com/pctrade/end4-pC.git
 killall qs 2>/dev/null; qs -c end4-pC > /dev/null 2>&1 & disown
 ```
 
