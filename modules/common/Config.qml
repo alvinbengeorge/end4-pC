@@ -308,6 +308,14 @@ Singleton {
                         property real y: 100
                     }
 
+                    property JsonObject ports: JsonObject {
+                        property bool enable: true
+                        property string placementStrategy: "free"
+                        property real x: 1280
+                        property real y: 140
+                        property string sizeMode: "2x2"
+                    }
+
                     property JsonObject userCard: JsonObject {
                         property bool enable: false
                         property string placementStrategy: "free"

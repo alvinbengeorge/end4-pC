@@ -54,15 +54,16 @@ AbstractBackgroundWidget {
             }
         }
 
-        StyledDropShadow { target: contentRect }
+        StyledRectangularShadow {
+            target: contentRect
+            z: -2
+        }
 
         Rectangle {
             id: contentRect
             anchors.fill: parent
-            color: Appearance.colors.colLayer1
+            color: Appearance.colors.colPrimaryContainer
             radius: Appearance.rounding?.verylarge ?? 24
-            border.width: 1
-            border.color: Appearance.colors.colLayer1Border
 
             // ==========================================
             // SIDE A: Live Ports List
@@ -79,18 +80,16 @@ AbstractBackgroundWidget {
                     Layout.fillWidth: true
                     spacing: 8
 
-                    Rectangle {
-                        implicitWidth: 32
-                        implicitHeight: 32
-                        radius: 10
-                        color: ColorUtils.transparentize(Appearance.colors.colPrimary, 0.85)
-
-                        MaterialSymbol {
-                            anchors.centerIn: parent
-                            text: "router"
-                            iconSize: 18
-                            color: Appearance.colors.colPrimary
-                        }
+                    MaterialShapeWrappedMaterialSymbol {
+                        shape: MaterialShape.Shape.Cookie6Sided
+                        color: Appearance.colors.colPrimary
+                        colSymbol: Appearance.colors.colOnPrimary
+                        text: "router"
+                        iconSize: 18
+                        fill: 1
+                        padding: 6
+                        implicitWidth: 34
+                        implicitHeight: 34
                     }
 
                     ColumnLayout {
@@ -99,7 +98,7 @@ AbstractBackgroundWidget {
                             text: "Ports & Services"
                             font.pixelSize: Appearance.font.pixelSize.normal
                             font.weight: Font.Bold
-                            color: Appearance.colors.colOnLayer1
+                            color: Appearance.colors.colOnPrimaryContainer
                         }
                         RowLayout {
                             spacing: 4
@@ -123,10 +122,10 @@ AbstractBackgroundWidget {
                     Rectangle {
                         implicitWidth: 120
                         implicitHeight: 30
-                        radius: 8
-                        color: Appearance.colors.colLayer2
+                        radius: Appearance.rounding?.small ?? 8
+                        color: Appearance.colors.colLayer1
                         border.width: 1
-                        border.color: searchInput.activeFocus ? Appearance.colors.colPrimary : Appearance.colors.colLayer2Border
+                        border.color: searchInput.activeFocus ? Appearance.colors.colPrimary : Appearance.colors.colLayer1Border
 
                         RowLayout {
                             anchors.fill: parent
@@ -142,7 +141,7 @@ AbstractBackgroundWidget {
                             TextInput {
                                 id: searchInput
                                 Layout.fillWidth: true
-                                color: Appearance.colors.colOnLayer2
+                                color: Appearance.colors.colOnLayer1
                                 font.pixelSize: Appearance.font.pixelSize.small
                                 verticalAlignment: TextInput.AlignVCenter
                                 clip: true
@@ -164,15 +163,15 @@ AbstractBackgroundWidget {
                     Rectangle {
                         implicitWidth: 30
                         implicitHeight: 30
-                        radius: 8
-                        color: refreshHover.hovered ? Appearance.colors.colLayer2Hover : Appearance.colors.colLayer2
+                        radius: Appearance.rounding?.small ?? 8
+                        color: refreshHover.hovered ? Appearance.colors.colLayer1Hover : Appearance.colors.colLayer1
 
                         MaterialSymbol {
                             id: refreshIcon
                             anchors.centerIn: parent
                             text: "refresh"
                             iconSize: 16
-                            color: Appearance.colors.colOnLayer2
+                            color: Appearance.colors.colOnLayer1
                             RotationAnimation on rotation {
                                 from: 0; to: 360; duration: 600
                                 running: Ports.loading
@@ -193,14 +192,14 @@ AbstractBackgroundWidget {
                     Rectangle {
                         implicitWidth: 30
                         implicitHeight: 30
-                        radius: 8
-                        color: flipHover.hovered ? Appearance.colors.colLayer2Hover : Appearance.colors.colLayer2
+                        radius: Appearance.rounding?.small ?? 8
+                        color: flipHover.hovered ? Appearance.colors.colLayer1Hover : Appearance.colors.colLayer1
 
                         MaterialSymbol {
                             anchors.centerIn: parent
                             text: "tune"
                             iconSize: 16
-                            color: Appearance.colors.colOnLayer2
+                            color: Appearance.colors.colOnLayer1
                         }
 
                         MouseArea {
@@ -211,13 +210,6 @@ AbstractBackgroundWidget {
                             onClicked: root.toggleFlip()
                         }
                     }
-                }
-
-                // Divider
-                Rectangle {
-                    Layout.fillWidth: true
-                    height: 1
-                    color: Appearance.colors.colLayer1Border
                 }
 
                 // Port List
@@ -246,10 +238,10 @@ AbstractBackgroundWidget {
                         required property var modelData
                         width: portListView.width
                         height: 38
-                        radius: 10
-                        color: rowHover.hovered ? Appearance.colors.colLayer2Hover : Appearance.colors.colLayer2
+                        radius: Appearance.rounding?.small ?? 10
+                        color: Appearance.colors.colLayer1
                         border.width: 1
-                        border.color: Appearance.colors.colLayer2Border
+                        border.color: Appearance.colors.colLayer1Border
 
                         RowLayout {
                             anchors.fill: parent
@@ -261,12 +253,11 @@ AbstractBackgroundWidget {
                             Rectangle {
                                 implicitWidth: Math.max(54, portText.implicitWidth + 12)
                                 implicitHeight: 24
-                                radius: 6
+                                radius: Appearance.rounding?.tiny ?? 6
                                 color: {
                                     if (modelData.category === "web") return ColorUtils.transparentize(Appearance.colors.colPrimary, 0.8)
-                                    if (modelData.category === "database") return ColorUtils.transparentize("#10b981", 0.8)
-                                    if (modelData.category === "ai") return ColorUtils.transparentize("#a855f7", 0.8)
-                                    if (modelData.category === "ide") return ColorUtils.transparentize("#3b82f6", 0.8)
+                                    if (modelData.category === "database") return ColorUtils.transparentize(Appearance.colors.colTertiary, 0.8)
+                                    if (modelData.category === "ai") return ColorUtils.transparentize(Appearance.m3colors.m3secondary, 0.8)
                                     return ColorUtils.transparentize(Appearance.colors.colSubtext, 0.85)
                                 }
 
@@ -278,9 +269,8 @@ AbstractBackgroundWidget {
                                     font.weight: Font.Bold
                                     color: {
                                         if (modelData.category === "web") return Appearance.colors.colPrimary
-                                        if (modelData.category === "database") return "#10b981"
-                                        if (modelData.category === "ai") return "#a855f7"
-                                        if (modelData.category === "ide") return "#3b82f6"
+                                        if (modelData.category === "database") return Appearance.colors.colTertiary
+                                        if (modelData.category === "ai") return Appearance.m3colors.m3secondary
                                         return Appearance.colors.colSubtext
                                     }
                                 }
@@ -296,7 +286,7 @@ AbstractBackgroundWidget {
                                     text: modelData.process || "Unknown process"
                                     font.pixelSize: Appearance.font.pixelSize.small
                                     font.weight: Font.Medium
-                                    color: Appearance.colors.colOnLayer2
+                                    color: Appearance.colors.colOnLayer1
                                     elide: Text.ElideRight
                                 }
 
@@ -361,13 +351,13 @@ AbstractBackgroundWidget {
                                 implicitWidth: 26
                                 implicitHeight: 26
                                 radius: 6
-                                color: killHover.hovered ? ColorUtils.transparentize("#ef4444", 0.2) : ColorUtils.transparentize("#ef4444", 0.08)
+                                color: killHover.hovered ? Appearance.m3colors.m3error : ColorUtils.transparentize(Appearance.m3colors.m3error, 0.85)
 
                                 MaterialSymbol {
                                     anchors.centerIn: parent
                                     text: "close"
                                     iconSize: 14
-                                    color: killHover.hovered ? "#ffffff" : "#ef4444"
+                                    color: killHover.hovered ? Appearance.m3colors.m3onError : Appearance.m3colors.m3error
                                 }
 
                                 MouseArea {
@@ -378,13 +368,6 @@ AbstractBackgroundWidget {
                                     onClicked: Ports.killPort(modelData.port, modelData.pid, modelData.process)
                                 }
                             }
-                        }
-
-                        MouseArea {
-                            id: rowHover
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            acceptedButtons: Qt.NoButton
                         }
                     }
 
@@ -426,25 +409,23 @@ AbstractBackgroundWidget {
                     Layout.fillWidth: true
                     spacing: 8
 
-                    Rectangle {
-                        implicitWidth: 32
-                        implicitHeight: 32
-                        radius: 10
-                        color: ColorUtils.transparentize(Appearance.colors.colSecondary, 0.85)
-
-                        MaterialSymbol {
-                            anchors.centerIn: parent
-                            text: "bolt"
-                            iconSize: 18
-                            color: Appearance.colors.colSecondary
-                        }
+                    MaterialShapeWrappedMaterialSymbol {
+                        shape: MaterialShape.Shape.Cookie6Sided
+                        color: Appearance.colors.colSecondary
+                        colSymbol: Appearance.colors.colOnSecondary
+                        text: "bolt"
+                        iconSize: 18
+                        fill: 1
+                        padding: 6
+                        implicitWidth: 34
+                        implicitHeight: 34
                     }
 
                     StyledText {
                         text: "Quick Dev Actions"
                         font.pixelSize: Appearance.font.pixelSize.normal
                         font.weight: Font.Bold
-                        color: Appearance.colors.colOnLayer1
+                        color: Appearance.colors.colOnPrimaryContainer
                     }
 
                     Item { Layout.fillWidth: true }
@@ -453,14 +434,14 @@ AbstractBackgroundWidget {
                     Rectangle {
                         implicitWidth: 30
                         implicitHeight: 30
-                        radius: 8
-                        color: backHover.hovered ? Appearance.colors.colLayer2Hover : Appearance.colors.colLayer2
+                        radius: Appearance.rounding?.small ?? 8
+                        color: backHover.hovered ? Appearance.colors.colLayer1Hover : Appearance.colors.colLayer1
 
                         MaterialSymbol {
                             anchors.centerIn: parent
                             text: "arrow_back"
                             iconSize: 16
-                            color: Appearance.colors.colOnLayer2
+                            color: Appearance.colors.colOnLayer1
                         }
 
                         MouseArea {
@@ -471,13 +452,6 @@ AbstractBackgroundWidget {
                             onClicked: root.toggleFlip()
                         }
                     }
-                }
-
-                // Divider
-                Rectangle {
-                    Layout.fillWidth: true
-                    height: 1
-                    color: Appearance.colors.colLayer1Border
                 }
 
                 // Preset Buttons
@@ -499,16 +473,16 @@ AbstractBackgroundWidget {
                         Rectangle {
                             Layout.fillWidth: true
                             implicitHeight: 34
-                            radius: 8
-                            color: nodeHover.hovered ? ColorUtils.transparentize("#ef4444", 0.25) : Appearance.colors.colLayer2
+                            radius: Appearance.rounding?.small ?? 8
+                            color: nodeHover.hovered ? Appearance.m3colors.m3error : Appearance.colors.colLayer1
                             border.width: 1
-                            border.color: nodeHover.hovered ? "#ef4444" : Appearance.colors.colLayer2Border
+                            border.color: nodeHover.hovered ? Appearance.m3colors.m3error : Appearance.colors.colLayer1Border
 
                             RowLayout {
                                 anchors.centerIn: parent
                                 spacing: 4
-                                MaterialSymbol { text: "terminal"; iconSize: 14; color: nodeHover.hovered ? "#ef4444" : Appearance.colors.colOnLayer2 }
-                                StyledText { text: "Kill All Node"; font.pixelSize: Appearance.font.pixelSize.small; color: nodeHover.hovered ? "#ef4444" : Appearance.colors.colOnLayer2 }
+                                MaterialSymbol { text: "terminal"; iconSize: 14; color: nodeHover.hovered ? Appearance.m3colors.m3onError : Appearance.colors.colOnLayer1 }
+                                StyledText { text: "Kill All Node"; font.pixelSize: Appearance.font.pixelSize.small; color: nodeHover.hovered ? Appearance.m3colors.m3onError : Appearance.colors.colOnLayer1 }
                             }
 
                             MouseArea {
@@ -524,16 +498,16 @@ AbstractBackgroundWidget {
                         Rectangle {
                             Layout.fillWidth: true
                             implicitHeight: 34
-                            radius: 8
-                            color: pyHover.hovered ? ColorUtils.transparentize("#ef4444", 0.25) : Appearance.colors.colLayer2
+                            radius: Appearance.rounding?.small ?? 8
+                            color: pyHover.hovered ? Appearance.m3colors.m3error : Appearance.colors.colLayer1
                             border.width: 1
-                            border.color: pyHover.hovered ? "#ef4444" : Appearance.colors.colLayer2Border
+                            border.color: pyHover.hovered ? Appearance.m3colors.m3error : Appearance.colors.colLayer1Border
 
                             RowLayout {
                                 anchors.centerIn: parent
                                 spacing: 4
-                                MaterialSymbol { text: "code"; iconSize: 14; color: pyHover.hovered ? "#ef4444" : Appearance.colors.colOnLayer2 }
-                                StyledText { text: "Kill All Python"; font.pixelSize: Appearance.font.pixelSize.small; color: pyHover.hovered ? "#ef4444" : Appearance.colors.colOnLayer2 }
+                                MaterialSymbol { text: "code"; iconSize: 14; color: pyHover.hovered ? Appearance.m3colors.m3onError : Appearance.colors.colOnLayer1 }
+                                StyledText { text: "Kill All Python"; font.pixelSize: Appearance.font.pixelSize.small; color: pyHover.hovered ? Appearance.m3colors.m3onError : Appearance.colors.colOnLayer1 }
                             }
 
                             MouseArea {
@@ -562,10 +536,10 @@ AbstractBackgroundWidget {
                     Rectangle {
                         Layout.fillWidth: true
                         Layout.fillHeight: true
-                        radius: 8
-                        color: Appearance.colors.colLayer2
+                        radius: Appearance.rounding?.small ?? 8
+                        color: Appearance.colors.colLayer1
                         border.width: 1
-                        border.color: Appearance.colors.colLayer2Border
+                        border.color: Appearance.colors.colLayer1Border
 
                         ColumnLayout {
                             anchors.fill: parent
@@ -580,19 +554,19 @@ AbstractBackgroundWidget {
                             }
                             RowLayout {
                                 Layout.fillWidth: true
-                                StyledText { text: ":8000 / :8080"; font.weight: Font.Bold; font.pixelSize: Appearance.font.pixelSize.smaller; color: "#10b981" }
+                                StyledText { text: ":8000 / :8080"; font.weight: Font.Bold; font.pixelSize: Appearance.font.pixelSize.smaller; color: Appearance.colors.colTertiary }
                                 Item { Layout.fillWidth: true }
                                 StyledText { text: "FastAPI / Django / Spring"; font.pixelSize: Appearance.font.pixelSize.smaller; color: Appearance.colors.colSubtext }
                             }
                             RowLayout {
                                 Layout.fillWidth: true
-                                StyledText { text: ":5432 / :6379"; font.weight: Font.Bold; font.pixelSize: Appearance.font.pixelSize.smaller; color: "#a855f7" }
+                                StyledText { text: ":5432 / :6379"; font.weight: Font.Bold; font.pixelSize: Appearance.font.pixelSize.smaller; color: Appearance.m3colors.m3secondary }
                                 Item { Layout.fillWidth: true }
                                 StyledText { text: "PostgreSQL / Redis Cache"; font.pixelSize: Appearance.font.pixelSize.smaller; color: Appearance.colors.colSubtext }
                             }
                             RowLayout {
                                 Layout.fillWidth: true
-                                StyledText { text: ":11434 / :27017"; font.weight: Font.Bold; font.pixelSize: Appearance.font.pixelSize.smaller; color: "#f59e0b" }
+                                StyledText { text: ":11434 / :27017"; font.weight: Font.Bold; font.pixelSize: Appearance.font.pixelSize.smaller; color: Appearance.colors.colPrimary }
                                 Item { Layout.fillWidth: true }
                                 StyledText { text: "Ollama AI / MongoDB"; font.pixelSize: Appearance.font.pixelSize.smaller; color: Appearance.colors.colSubtext }
                             }
