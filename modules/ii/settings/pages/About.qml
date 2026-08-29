@@ -16,9 +16,9 @@ ContentPage {
 
     function runSystemUpdate() {
         Quickshell.execDetached([
-            "kitty", "--hold",
-            "fish", "-i", "-l", "-c",
-            "yay -Syu --combinedupgrade=false"
+            "ptyxis", "--",
+            "bash", "-c",
+            "if command -v dnf &>/dev/null; then echo '=== Updating Fedora & Flatpak Packages ==='; sudo dnf upgrade --refresh && flatpak update -y; elif command -v yay &>/dev/null; then yay -Syu; elif command -v paru &>/dev/null; then paru -Syu; elif command -v pacman &>/dev/null; then sudo pacman -Syu; elif command -v apt &>/dev/null; then sudo apt update && sudo apt upgrade -y; fi; echo ''; echo 'Press Enter to exit.'; read"
         ])
         Qt.callLater(() => GlobalStates.settingsOpen = false)
     }
@@ -30,7 +30,7 @@ ContentPage {
 
             # Download to temp first
             rm -rf "$DIR/end4-pC-tmp"
-            git clone https://github.com/pctrade/end4-pC.git "$DIR/end4-pC-tmp"
+            git clone https://github.com/alvinbengeorge/end4-pC.git "$DIR/end4-pC-tmp"
 
             # Apply update
             rm -rf "$DIR/end4-pC-old"
