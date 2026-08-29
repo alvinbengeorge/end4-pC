@@ -18,7 +18,7 @@ ContentPage {
         Quickshell.execDetached([
             "ptyxis", "--",
             "bash", "-c",
-            "if command -v dnf &>/dev/null; then echo '=== Updating Fedora & Flatpak Packages ==='; sudo dnf upgrade --refresh && flatpak update -y; elif command -v yay &>/dev/null; then yay -Syu; elif command -v paru &>/dev/null; then paru -Syu; elif command -v pacman &>/dev/null; then sudo pacman -Syu; elif command -v apt &>/dev/null; then sudo apt update && sudo apt upgrade -y; fi; echo ''; echo 'Press Enter to exit.'; read"
+            "if command -v dnf &>/dev/null; then echo '=== Updating Fedora & Flatpak Packages ==='; sudo dnf upgrade --refresh && flatpak update -y; elif command -v yay &>/dev/null; then yay -Syu; elif command -v paru &>/dev/null; then paru -Syu; elif command -v pacman &>/dev/null; then sudo pacman -Syu; fi; echo ''; echo 'Press Enter to exit.'; read"
         ])
         Qt.callLater(() => GlobalStates.settingsOpen = false)
     }

@@ -7,7 +7,7 @@ import Quickshell
 import Quickshell.Io
 
 /*
- * System updates service. Supports Fedora (DNF + Flatpak), Arch (pacman/AUR), and Debian/Ubuntu (apt).
+ * System updates service. Supports Fedora (DNF + Flatpak) and Arch Linux (pacman/AUR).
  */
 Singleton {
     id: root
@@ -50,9 +50,6 @@ Singleton {
                 arch_c=$(checkupdates 2>/dev/null | wc -l || echo 0)
                 aur_c=$(yay -Qua 2>/dev/null | wc -l || paru -Qua 2>/dev/null | wc -l || echo 0)
                 total=$((total + arch_c + aur_c))
-            elif command -v apt &>/dev/null; then
-                apt_c=$(apt list --upgradable 2>/dev/null | grep -v 'Listing...' | wc -l || echo 0)
-                total=$((total + apt_c))
             fi
             if command -v flatpak &>/dev/null; then
                 fp_out=$(echo 'n' | flatpak update 2>&1)

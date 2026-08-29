@@ -201,9 +201,6 @@ Singleton {
             elif command -v pacman &>/dev/null; then
                 pkg_c=$(pacman -Q 2>/dev/null | wc -l)
                 pkg_t=\"pacman\"
-            elif command -v dpkg &>/dev/null; then
-                pkg_c=$(dpkg-query -f '.\\n' -W 2>/dev/null | wc -l)
-                pkg_t=\"dpkg\"
             else
                 pkg_c=0
                 pkg_t=\"pkg\"
