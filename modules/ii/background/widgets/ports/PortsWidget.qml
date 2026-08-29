@@ -24,7 +24,6 @@ AbstractBackgroundWidget {
     implicitHeight: root.cardHeight * 2 + root.cardSpacing
 
     property string mode: "list" // "list" | "presets"
-    property string searchQuery: ""
 
     function toggleFlip() { flipAnim.start() }
 
@@ -118,47 +117,6 @@ AbstractBackgroundWidget {
 
                     Item { Layout.fillWidth: true }
 
-                    // Search input
-                    Rectangle {
-                        implicitWidth: 120
-                        implicitHeight: 30
-                        radius: Appearance.rounding?.small ?? 8
-                        color: Appearance.colors.colLayer1
-                        border.width: 1
-                        border.color: searchInput.activeFocus ? Appearance.colors.colPrimary : Appearance.colors.colLayer1Border
-
-                        RowLayout {
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            spacing: 4
-
-                            MaterialSymbol {
-                                text: "search"
-                                iconSize: 14
-                                color: Appearance.colors.colSubtext
-                            }
-
-                            TextInput {
-                                id: searchInput
-                                Layout.fillWidth: true
-                                color: Appearance.colors.colOnLayer1
-                                font.pixelSize: Appearance.font.pixelSize.small
-                                verticalAlignment: TextInput.AlignVCenter
-                                clip: true
-                                onTextChanged: root.searchQuery = text.trim().toLowerCase()
-
-                                StyledText {
-                                    anchors.fill: parent
-                                    visible: !searchInput.text && !searchInput.activeFocus
-                                    text: "Filter..."
-                                    font.pixelSize: Appearance.font.pixelSize.small
-                                    color: Appearance.colors.colSubtext
-                                    verticalAlignment: Text.AlignVCenter
-                                }
-                            }
-                        }
-                    }
-
                     // Refresh Button
                     Rectangle {
                         implicitWidth: 30
@@ -220,18 +178,7 @@ AbstractBackgroundWidget {
                     clip: true
                     spacing: 6
                     boundsBehavior: Flickable.StopAtBounds
-
-                    model: {
-                        let list = Ports.portsList;
-                        if (root.searchQuery) {
-                            list = list.filter(p => 
-                                String(p.port).includes(root.searchQuery) ||
-                                (p.process && p.process.toLowerCase().includes(root.searchQuery)) ||
-                                (p.pid && String(p.pid).includes(root.searchQuery))
-                            )
-                        }
-                        return list;
-                    }
+                    model: Ports.portsList
 
                     delegate: Rectangle {
                         id: portRow
@@ -386,7 +333,7 @@ AbstractBackgroundWidget {
 
                         StyledText {
                             Layout.alignment: Qt.AlignHCenter
-                            text: root.searchQuery ? "No ports match filter" : "No active dev ports"
+                            text: "No active dev ports"
                             font.pixelSize: Appearance.font.pixelSize.small
                             color: Appearance.colors.colSubtext
                         }
