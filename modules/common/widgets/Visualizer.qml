@@ -60,7 +60,7 @@ Item {
                 height: pointValue
                 radius: width / 2
                 anchors.verticalCenter: parent.verticalCenter
-                color: Appearance.colors.colOnLayer0
+                color: Appearance.colors.colPrimary
                 opacity: root.isPlaying ? 0.85 : 0.3
                 Behavior on height { NumberAnimation { duration: 80; easing.type: Easing.OutQuad } }
                 Behavior on opacity { NumberAnimation { duration: 300 } }
