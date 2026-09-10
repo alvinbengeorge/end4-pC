@@ -13,6 +13,7 @@ import Quickshell
 import Quickshell.Io
 import Quickshell.Wayland
 import Quickshell.Services.Mpris
+import Quickshell.Hyprland
 
 // Standalone popup, opened only via the "equalizer" button inside the media
 // popup's controls (PlayerControls.qml / PlayerControlsLyrics.qml) - there is
@@ -297,6 +298,15 @@ Scope {
                     onCloseRequested: GlobalStates.equalizerOpen = false
                 }
             }
+        }
+    }
+
+    CompositorGlobalShortcut {
+        name: "equalizerToggle"
+        description: "Toggles equalizer popup on press"
+
+        onPressed: {
+            GlobalStates.equalizerOpen = !GlobalStates.equalizerOpen;
         }
     }
 }
