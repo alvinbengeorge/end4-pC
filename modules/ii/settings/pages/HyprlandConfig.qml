@@ -92,6 +92,7 @@ ContentPage {
                     ConfigSwitch {
                         buttonIcon: "tv_off"
                         text: Translation.tr("Enabled")
+                        enabled: monitorConfig.monitors.length > 1
                         checked: !(monitorConfig.monitors[monitorCanvas.selectedIndex]?.disabled ?? false)
                         onCheckedChanged: {
                             if (checked === !(monitorConfig.monitors[monitorCanvas.selectedIndex]?.disabled ?? false)) return

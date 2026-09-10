@@ -419,6 +419,7 @@ Singleton {
                 property real frameThickness: 4
                 property string frameColor: "black"
                 property bool followFrameColor: false
+                property bool centerOnlyReserveFrame: false
                 property bool bottom: false // Instead of top
                 property int cornerStyle: 0 // 0: Hug | 1: Float | 2: Plain rectangle
                 property string groupColor: "layer1"
@@ -820,6 +821,7 @@ Singleton {
                 property int columns: 4
                 property bool closeAfterSelection: true
                 property int changeInterval: 0 
+                property string sortMode: "time"
             }
 
             property JsonObject windows: JsonObject {
