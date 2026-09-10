@@ -20,6 +20,14 @@ Scope {
         screen: Quickshell.screens.find(s => s.name === Hyprland.focusedMonitor?.name) ?? Quickshell.screens[0]
         property string searchingText: ""
         readonly property HyprlandMonitor monitor: Hyprland.monitorFor(panelWindow.screen)
+        readonly property bool barCenterOnly: Config.options.bar.layouts.leftLayout.length === 0
+            && Config.options.bar.layouts.rightLayout.length === 0
+            && !Config.options.bar.vertical
+
+        readonly property bool barOverlapActive: panelWindow.barCenterOnly
+            && Config.options.bar.centerOnlyReserveFrame
+            && !Config.options.bar.bottom
+            && !Config.options.bar.autoHide.enable
         property bool monitorIsFocused: (Hyprland.focusedMonitor?.id == monitor?.id)
         visible: GlobalStates.overviewOpen
 
@@ -75,6 +83,9 @@ Scope {
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 top: parent.top
+                topMargin: panelWindow.barOverlapActive
+                    ? Appearance.sizes.barHeight - Config.options.bar.frameThickness
+                    : 0
             }
             spacing: -8
 
