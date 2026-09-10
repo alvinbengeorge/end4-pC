@@ -17,6 +17,7 @@ Scope {
 
     PanelWindow {
         id: panelWindow
+        screen: Quickshell.screens.find(s => s.name === Hyprland.focusedMonitor?.name) ?? Quickshell.screens[0]
         property string searchingText: ""
         readonly property HyprlandMonitor monitor: Hyprland.monitorFor(panelWindow.screen)
         readonly property bool barCenterOnly: Config.options.bar.layouts.leftLayout.length === 0
@@ -163,6 +164,16 @@ Scope {
         GlobalStates.overviewOpen = true;
     }
 
+    function toggleKeybinds() {
+        if (GlobalStates.overviewOpen && overviewScope.dontAutoCancelSearch) {
+            GlobalStates.overviewOpen = false;
+            return;
+        }
+        overviewScope.dontAutoCancelSearch = true;
+        panelWindow.setSearchingText(Config.options.search.prefix.keybinds ?? "<");
+        GlobalStates.overviewOpen = true;
+    }
+
     IpcHandler {
         target: "search"
 
@@ -183,6 +194,9 @@ Scope {
         }
         function clipboardToggle() {
             overviewScope.toggleClipboard();
+        }
+        function keybindsToggle() {
+            overviewScope.toggleKeybinds();
         }
     }
 
