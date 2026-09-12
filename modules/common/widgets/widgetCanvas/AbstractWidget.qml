@@ -14,6 +14,7 @@ MouseArea {
     property bool snapEnabled: true
     readonly property bool dragging: drag.active
     property bool showSelectionBorder: true
+    property bool pinnedBottom: false
 
     property bool selected: false
     property bool groupDragActive: false
@@ -21,6 +22,12 @@ MouseArea {
     acceptedButtons: Qt.LeftButton | Qt.RightButton
     drag.target: draggable ? dragProxy : undefined
     cursorShape: (draggable && containsPress) ? Qt.ClosedHandCursor : draggable ? Qt.OpenHandCursor : Qt.ArrowCursor
+
+    onPressed: (mouse) => {
+        if (mouse.button !== Qt.LeftButton) return
+        var canvas = findCanvas(root.parent)
+        if (canvas) canvas.bringToFront(root)
+    }
 
     onClicked: (mouse) => {
         if (mouse.button === Qt.RightButton) {
@@ -65,10 +72,7 @@ MouseArea {
 
     function commitPosition() {}
 
-    Component.onCompleted: {
-        var canvas = findCanvas(root.parent)
-        if (canvas) canvas.registerWidget(root)
-    }
+    Component.onCompleted: { var canvas = findCanvas(root.parent); if (canvas) canvas.registerWidget(root) }
 
     Component.onDestruction: {
         var canvas = findCanvas(root.parent)
